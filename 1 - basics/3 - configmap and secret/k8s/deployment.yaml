@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hello-config-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hello-flask
+  template:
+    metadata:
+      labels:
+        app: hello-flask
+    spec:
+      containers:
+      - name: hello-container
+        image: hello-flask
+        ports:
+        - containerPort: 5000
+        env:
+        - name: GREETING
+          valueFrom:
+            configMapKeyRef:
+              name: hello-config
+              key: GREETING
+        - name: SECRET_WORD
+          valueFrom:
+            secretKeyRef:
+              name: hello-secret
+              key: SECRET_WORD 
