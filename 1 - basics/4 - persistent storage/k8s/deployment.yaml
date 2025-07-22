@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: persist-demo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: persist-demo
+  template:
+    metadata:
+      labels:
+        app: persist-demo
+    spec:
+      containers:
+      - name: persist-demo-container
+        image: persist-demo
+        ports:
+        - containerPort: 5000
+        volumeMounts:
+        - name: data-volume
+          mountPath: /data
+      volumes:
+      - name: data-volume
+        persistentVolumeClaim:
+          claimName: demo-pvc 
