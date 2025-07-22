@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: health-checks-demo-deployment
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: health-checks-demo
+  template:
+    metadata:
+      labels:
+        app: health-checks-demo
+    spec:
+      containers:
+      - name: health-checks-demo-container
+        image: health-checks-demo
+        ports:
+        - containerPort: 5000
+        livenessProbe:
+          httpGet:
+            path: /healthz
+            port: 5000
+          initialDelaySeconds: 3
+          periodSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 5000
+          initialDelaySeconds: 3
+          periodSeconds: 5 
