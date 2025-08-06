@@ -1,0 +1,6 @@
+FROM python:3.11-slim
+WORKDIR /app
+COPY app2.py .
+RUN pip install flask
+ENTRYPOINT ["python", "app2.py"]
+
